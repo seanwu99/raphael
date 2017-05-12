@@ -145,7 +145,7 @@ window.onload = function () {
         cc(x2[i] + "/" + y2[i]);
     }
     for (var i = 0, ii = shapes.length; i < ii; i++) {
-        var color = "blue";//Raphael.getColor();
+        var color = Raphael.getColor();
         var color2 = "#ffffff";
         shapes2[i].attr({stroke: color2, "stroke-width": 1});
         shapes[i].attr({fill: color, stroke: color, "fill-opacity": 1, "stroke-width": 2, cursor: "move"});
