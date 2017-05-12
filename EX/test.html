@@ -2,21 +2,18 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Raphael · Graffle</title>
+    <title>Raphael · shapes</title>
     <script id="sap-ui-bootstrap"
             src="https://sapui5.netweaver.ondemand.com/resources/sap-ui-core.js"
             data-sap-ui-theme="sap_bluecrystal"
             data-sap-ui-libs="sap.m,sap.ui.commons,sap.ui.table,sap.ui.core"
             data-sap-ui-language="en">
     </script>
-    <!--<link rel="stylesheet" href="demo.css" type="text/css" media="screen">-->
-    <!--<link rel="stylesheet" href="demo-print.css" type="text/css" media="print">-->
     <script src="raphael.js" type="text/javascript" charset="utf-8"></script>
-    <!--<script src="test.js" type="text/javascript" charset="utf-8"></script>-->
     <style type="text/css" media="screen">
         #raphaelPaper {
-            /*-moz-border-radius: 10px;*/
-            /*-webkit-border-radius: 10px;*/
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
             height: 800px;
             left: 50%;
             margin: -400px 0 0 -600px;
@@ -35,29 +32,24 @@
 
 
     <script>
-        var shapeItems, shapeAUX, shapeConnections;
+        var shapeItems, shapeAid, shapeConnections;
         var raphael;
         var shapeAx, shapeAy;
         var shapeNum = 0;
         $(function () {
             shapeItems = [];
             raphael = Raphael("raphaelPaper", 1200, 800);
-            raphael.text(230, 120, "text").attr({"font-size": "14px", "fill": "#ffffff"});
+            raphael.text(230, 120, "text here").attr({"font-size": "14px", "fill": "#ffffff"});
 
-//            var _shape;
             shapeItems = [
                 raphael.ellipse(190, 100, 30, 20),
                 raphael.rect(290, 80, 60, 40, 10),
                 raphael.rect(290, 180, 60, 40, 2),
                 raphael.ellipse(450, 100, 20, 20),
-                raphael.rect(500, 500, 80, 60, 2)
+                raphael.rect(500, 500, 80, 60, 2),
             ];
 
-            for (var i = 0; i < shapeItems.length; i++) {
-                shapeItems[i].id = i;
-            }
-
-            shapeAUX = [
+            shapeAid = [
                 raphael.rect(190 - 15, 100 - 10, 30, 20),
                 raphael.ellipse(290 + 30, 80 + 20, 30, 20),
                 raphael.ellipse(290 + 30, 180 + 20, 30, 20),
@@ -65,16 +57,22 @@
                 raphael.ellipse(500 + 40, 500 + 30, 40, 30),
             ];
 
+            shapeAid[0].id = shapeItems[0].id;
+            shapeAid[1].id = shapeItems[0].id;
+            shapeAid[2].id = shapeItems[0].id;
+            shapeAid[3].id = shapeItems[0].id;
+            shapeAid[4].id = shapeItems[0].id;
+
             shapeAx = [], shapeAy = [];
 
-            for (var i = 0; i < shapeAUX.length; i++) {
-                if (shapeAUX[i].type == 'rect') {
-                    shapeAx.push(shapeAUX[i].getBBox().x);
-                    shapeAy.push(shapeAUX[i].getBBox().y);
-                } else if (shapeAUX[i].type == 'ellipse') {
-                    shapeAx.push(shapeAUX[i].getBBox().cx);
-                    shapeAy.push(shapeAUX[i].getBBox().cy);
-                }
+            for (var i = 0; i < shapeAid.length; i++) {
+//                if (shapeAid[i].type == 'rect') {
+//                    shapeAx.push(shapeAid[i].getBBox().x);
+//                    shapeAy.push(shapeAid[i].getBBox().y);
+//                } else if (shapeAid[i].type == 'ellipse') {
+                shapeAx.push(shapeAid[i].getBBox().cx);
+                shapeAy.push(shapeAid[i].getBBox().cy);
+//                }
             }
 
             for (var i = 0, ii = shapeItems.length; i < ii; i++) {
@@ -83,7 +81,7 @@
                 shapeItems[i].drag(shapeMove, shapeDragger, shapeMouseup);
 
                 var color2 = "#ffffff";
-                shapeAUX[i].attr({stroke: color2, "stroke-width": 1});
+                shapeAid[i].attr({stroke: color2, "stroke-width": 1});
             }
 
             shapeConnections = [];
@@ -103,21 +101,21 @@
             for (var i = shapeConnections.length; i--;) {
                 raphael.connection(shapeConnections[i]);
             }
-            var att2 = shapeAUX[this.id].type == "rect" ? {
+            var att2 = shapeAid[this.id].type == "rect" ? {
                 x: shapeAx[this.id] + dx,
                 y: shapeAy[this.id] + dy
             } : {cx: shapeAx[this.id] + dx, cy: shapeAy[this.id] + dy};
-            shapeAUX[this.id].attr(att2);
+            shapeAid[this.id].attr(att2);
         }
 
         function shapeMouseup() {
             this.animate({"fill-opacity": 1}, 500);
-            if (shapeAUX[this.id].type == "rect") {
-                shapeAx[this.id] = shapeAUX[this.id].getBBox().x;
-                shapeAy[this.id] = shapeAUX[this.id].getBBox().y;
-            } else if (shapeAUX[this.id].type == "ellipse") {
-                shapeAx[this.id] = shapeAUX[this.id].getBBox().cx;
-                shapeAy[this.id] = shapeAUX[this.id].getBBox().cy;
+            if (shapeAid[this.id].type == "rect") {
+                shapeAx[this.id] = shapeAid[this.id].getBBox().x;
+                shapeAy[this.id] = shapeAid[this.id].getBBox().y;
+            } else if (shapeAid[this.id].type == "ellipse") {
+                shapeAx[this.id] = shapeAid[this.id].getBBox().cx;
+                shapeAy[this.id] = shapeAid[this.id].getBBox().cy;
             }
         }
 
